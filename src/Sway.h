@@ -10,8 +10,13 @@
 #include <vector>
 #include <cstdint>
 #include <iostream>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 struct SwayOutput {
+    std::string name;
+    bool active;
 };
 
 class Sway {
@@ -30,6 +35,8 @@ private:
     static constexpr auto PAYLOAD_LENGTH_POS = 6;
     static constexpr auto PAYLOAD_TYPE_POS = 10;
     static constexpr std::uint32_t MESSAGE_GET_OUTPUTS = 3; // TODO: Create message enum
+    static constexpr std::string SWAY_OUTPUT_NAME = "name";
+    static constexpr std::string SWAY_OUTPUT_ACTIVE = "active";
     int socket_fd;
 };
 

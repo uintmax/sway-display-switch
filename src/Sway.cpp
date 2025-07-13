@@ -63,9 +63,16 @@ std::vector<SwayOutput> Sway::get_outputs() {
     char *output_str = reinterpret_cast<char *>(reply_payload_buffer.data());
     std::string test(output_str);
     std::cout << test << std::endl;
+    json json_outputs = json::parse(test);
 
-
-    return std::vector<SwayOutput>{};
+    std::vector<SwayOutput> outputs;
+    for (const auto &json_output: json_outputs) {
+        auto output_name = json_output.at(SWAY_OUTPUT_NAME).get<std::string>();
+        auto output_active = json_output.at(SWAY_OUTPUT_ACTIVE).get<bool>();
+        SwayOutput output{output_name, output_active};
+        outputs.push_back(output);
+    }
+    return outputs;
 }
 
 Sway::~Sway() {
