@@ -1,7 +1,4 @@
 {
-  "dependencies": [
-    "nlohmann-json"
-  ],
   "vcpkg-configuration": {
     "default-registry": {
       "kind": "git",
@@ -15,5 +12,9 @@
         "name": "microsoft"
       }
     ]
-  }
+  },
+  "dependencies": [
+    "nlohmann-json",
+    "sdl3"
+  ]
 }
