@@ -5,9 +5,11 @@ set(CMAKE_CXX_STANDARD 20)
 
 find_package(nlohmann_json REQUIRED)
 find_package(SDL3 REQUIRED)
+find_package(SDL3_ttf REQUIRED)
+find_package(Fontconfig REQUIRED)
 
 add_executable(sway_monitor_switch src/main.cpp
         src/Sway.cpp
         src/Sway.h)
 
-target_link_libraries(sway_monitor_switch PRIVATE nlohmann_json::nlohmann_json SDL3::SDL3)
+target_link_libraries(sway_monitor_switch PRIVATE nlohmann_json::nlohmann_json SDL3::SDL3 SDL3_ttf::SDL3_ttf Fontconfig::Fontconfig)

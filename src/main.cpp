@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Sway.h"
 #include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
+#include <fontconfig/fontconfig.h>
 
 int main() {
     constexpr auto window_width = 500;
@@ -31,6 +33,46 @@ int main() {
     if (!SDL_CreateWindowAndRenderer("Sway Monitor Switch", window_width, window_height, SDL_WINDOW_BORDERLESS, &window,
                                      &renderer)) {
         std::cerr << "Could not create window and renderer" << std::endl;
+        return 1;
+    }
+
+    if (!FcInit()) {
+        std::cerr << "Could not initialize fontconfig" << std::endl;
+        return 1;
+    }
+
+    // TODO: Add error messages
+    FcPattern *font_pattern = FcNameParse(reinterpret_cast<const FcChar8 *>(":Mono"));
+    if (!font_pattern) {
+        return 1;
+    }
+
+    if (!FcConfigSubstitute(nullptr, font_pattern, FcMatchPattern)) {
+        return 1;
+    }
+    FcDefaultSubstitute(font_pattern);
+
+    FcResult font_result;
+    FcPattern *font_match = FcFontMatch(nullptr, font_pattern, &font_result);
+    if (!font_match || font_result != FcResultMatch) {
+        return 1;
+    }
+    FcChar8 *font_file_path = nullptr;
+    if (FcPatternGetString(font_match, FC_FILE, 0, &font_file_path) != FcResultMatch) {
+        return 1;
+    }
+
+    std::printf("%s\n", font_file_path);
+    // TODO: Free fontconfig resources
+
+    if (!TTF_Init()) {
+        std::cerr << "Could not initialize TTF renderer" << std::endl;
+        return 1;
+    }
+
+    TTF_Font *font = TTF_OpenFont(reinterpret_cast<char *>(font_file_path), 20);
+    if (!font) {
+        std::cerr << "Could not find font" << std::endl;
         return 1;
     }
 
