@@ -1,7 +1,7 @@
 #include "Sway.h"
 
 Sway::Sway() {
-    const char *socket_path = std::getenv(SWAYSOCK_VAR);
+    const char *socket_path = std::getenv(swaysock_var);
     if (!socket_path)
         throw std::runtime_error("Sway socket path environment variable is empty");
 
@@ -19,35 +19,35 @@ Sway::Sway() {
 }
 
 std::vector<SwayOutput> Sway::get_outputs() {
-    std::uint8_t payload[PAYLOAD_HEADER_LEN] = {};
-    PAYLOAD_MAGIC_BYTES.copy(reinterpret_cast<char *>(payload), PAYLOAD_MAGIC_BYTES.size());
-    *reinterpret_cast<uint32_t *>(&payload[PAYLOAD_LENGTH_POS]) = 0;
-    *reinterpret_cast<uint32_t *>(&payload[PAYLOAD_TYPE_POS]) = MESSAGE_GET_OUTPUTS;
+    std::uint8_t payload[payload_header_len] = {};
+    payload_magic_bytes.copy(reinterpret_cast<char *>(payload), payload_magic_bytes.size());
+    *reinterpret_cast<uint32_t *>(&payload[payload_length_pos]) = 0;
+    *reinterpret_cast<uint32_t *>(&payload[payload_type_pos]) = message_get_outputs;
 
-    auto bytes_written = write(socket_fd, payload, PAYLOAD_HEADER_LEN);
+    auto bytes_written = write(socket_fd, payload, payload_header_len);
     if (bytes_written == -1)
         throw std::runtime_error("Error writing to Sway socket");
-    if (bytes_written != PAYLOAD_HEADER_LEN)
+    if (bytes_written != payload_header_len)
         throw std::runtime_error(
-            "Only wrote " + std::to_string(bytes_written) + " out of " + std::to_string(PAYLOAD_HEADER_LEN) +
+            "Only wrote " + std::to_string(bytes_written) + " out of " + std::to_string(payload_header_len) +
             " bytes to Sway socket");
 
-    std::uint8_t reply_header_buffer[PAYLOAD_HEADER_LEN] = {};
-    auto header_bytes_read = read(socket_fd, reply_header_buffer, PAYLOAD_HEADER_LEN);
+    std::uint8_t reply_header_buffer[payload_header_len] = {};
+    auto header_bytes_read = read(socket_fd, reply_header_buffer, payload_header_len);
     if (header_bytes_read == -1)
         throw std::runtime_error("Error reading from Sway socket");
-    if (header_bytes_read != PAYLOAD_HEADER_LEN)
+    if (header_bytes_read != payload_header_len)
         throw std::runtime_error(
-            "Only read " + std::to_string(header_bytes_read) + " out of " + std::to_string(PAYLOAD_HEADER_LEN) +
+            "Only read " + std::to_string(header_bytes_read) + " out of " + std::to_string(payload_header_len) +
             " bytes from Sway socket");
 
-    if (std::memcmp(reply_header_buffer, PAYLOAD_MAGIC_BYTES.data(), PAYLOAD_MAGIC_BYTES.size()) != 0)
+    if (std::memcmp(reply_header_buffer, payload_magic_bytes.data(), payload_magic_bytes.size()) != 0)
         throw std::runtime_error("Reply does not start with magic bytes");
 
-    uint32_t reply_len = *reinterpret_cast<uint32_t *>(&reply_header_buffer[PAYLOAD_LENGTH_POS]);
-    uint32_t reply_type = *reinterpret_cast<uint32_t *>(&reply_header_buffer[PAYLOAD_TYPE_POS]);
+    uint32_t reply_len = *reinterpret_cast<uint32_t *>(&reply_header_buffer[payload_length_pos]);
+    uint32_t reply_type = *reinterpret_cast<uint32_t *>(&reply_header_buffer[payload_type_pos]);
 
-    if (reply_type != MESSAGE_GET_OUTPUTS)
+    if (reply_type != message_get_outputs)
         throw std::runtime_error("Message reply type did not match get_outputs type");
 
     std::vector<uint8_t> reply_payload_buffer(reply_len);
@@ -67,8 +67,8 @@ std::vector<SwayOutput> Sway::get_outputs() {
 
     std::vector<SwayOutput> outputs;
     for (const auto &json_output: json_outputs) {
-        auto output_name = json_output.at(SWAY_OUTPUT_NAME).get<std::string>();
-        auto output_active = json_output.at(SWAY_OUTPUT_ACTIVE).get<bool>();
+        auto output_name = json_output.at(sway_output_name).get<std::string>();
+        auto output_active = json_output.at(sway_output_active).get<bool>();
         SwayOutput output{output_name, output_active};
         outputs.push_back(output);
     }
