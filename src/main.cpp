@@ -83,6 +83,7 @@ int main() {
                 });
 
     bool exit = false;
+    gui.draw();
     while (!exit) {
         SDL_Event e;
         while (SDL_PollEvent(&e)) {
@@ -95,10 +96,10 @@ int main() {
                     break;
                 }
                 gui.handle_input(e.key.key);
+                gui.draw();
             }
         }
 
-        gui.draw();
         SDL_Delay(10);
     }
 
