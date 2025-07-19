@@ -10,6 +10,10 @@ find_package(Fontconfig REQUIRED)
 
 add_executable(sway_monitor_switch src/main.cpp
         src/Sway.cpp
-        src/Sway.h)
+        src/Sway.h
+        src/ui/Output.cpp
+        src/ui/Output.h
+        src/ui/GUI.cpp
+        src/ui/GUI.h)
 
 target_link_libraries(sway_monitor_switch PRIVATE nlohmann_json::nlohmann_json SDL3::SDL3 SDL3_ttf::SDL3_ttf Fontconfig::Fontconfig)

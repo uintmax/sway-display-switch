@@ -3,6 +3,8 @@
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <fontconfig/fontconfig.h>
+#include "ui/GUI.h"
+#include "ui/Output.h"
 
 int main() {
     constexpr auto window_width = 500;
@@ -18,9 +20,6 @@ int main() {
         std::cerr << "No outputs found" << std::endl;
         return 1;
     }
-
-    const float ui_elem_len = window_width / sway_outputs.size();
-
 
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "Could not initialize SDL" << std::endl;
@@ -64,6 +63,7 @@ int main() {
 
     std::printf("%s\n", font_file_path);
     // TODO: Free fontconfig resources
+    // TODO: Move font initialization to extra class
 
     if (!TTF_Init()) {
         std::cerr << "Could not initialize TTF renderer" << std::endl;
@@ -76,7 +76,11 @@ int main() {
         return 1;
     }
 
-    auto selected_output = 0;
+    ui::GUI gui(renderer, window, sway_outputs, font,
+                [](const std::string &name, bool activate) {
+                    std::cout << name << ": " << std::boolalpha << activate << std::endl;
+                    return true;
+                });
 
     bool exit = false;
     while (!exit) {
@@ -86,60 +90,15 @@ int main() {
                 exit = true;
 
             if (e.type == SDL_EVENT_KEY_DOWN) {
-                switch (e.key.key) {
-                    case SDLK_LEFT: {
-                        std::cout << "left" << std::endl;
-                        if (selected_output == 0)
-                            selected_output = sway_outputs.size() - 1;
-                        else
-                            selected_output--;
-                        break;
-                    }
-                    case SDLK_RIGHT: {
-                        std::cout << "right" << std::endl;
-                        if (selected_output == sway_outputs.size() - 1)
-                            selected_output = 0;
-                        else
-                            selected_output++;
-                        break;
-                    }
-                    case SDLK_SPACE:
-                    case SDLK_RETURN: {
-                        auto &output = sway_outputs.at(selected_output);
-                        output.active = !output.active;
-                        break;
-                    }
-                    case SDLK_ESCAPE: {
-                        exit = true;
-                        break;
-                    }
-                    default:
-                        break;
+                if (e.key.key == SDLK_ESCAPE) {
+                    exit = true;
+                    break;
                 }
+                gui.handle_input(e.key.key);
             }
         }
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
-
-
-        for (auto i = 0; const auto &output: sway_outputs) {
-            if (output.active) {
-                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-                SDL_FRect ui_elem_rect{.x = 0 + i * ui_elem_len, .y = 0, .w = ui_elem_len, .h = window_height};
-                SDL_RenderFillRect(renderer, &ui_elem_rect);
-            }
-
-            i++;
-        }
-
-        SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
-        auto selected_x = selected_output * ui_elem_len + 10;
-        SDL_FRect selected_rect{.x = selected_x, .y = 10, .w = 10, .h = 10};
-        SDL_RenderFillRect(renderer, &selected_rect);
-
-
-        SDL_RenderPresent(renderer);
+        gui.draw();
         SDL_Delay(10);
     }
 
