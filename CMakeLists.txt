@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(sway_monitor_switch)
+project(sway_display_switch)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -8,7 +8,7 @@ find_package(SDL3 REQUIRED)
 find_package(SDL3_ttf REQUIRED)
 find_package(Fontconfig REQUIRED)
 
-add_executable(sway_monitor_switch src/main.cpp
+add_executable(sway_display_switch src/main.cpp
         src/Sway.cpp
         src/Sway.h
         src/ui/Output.cpp
@@ -16,4 +16,4 @@ add_executable(sway_monitor_switch src/main.cpp
         src/ui/GUI.cpp
         src/ui/GUI.h)
 
-target_link_libraries(sway_monitor_switch PRIVATE nlohmann_json::nlohmann_json SDL3::SDL3 SDL3_ttf::SDL3_ttf Fontconfig::Fontconfig)
+target_link_libraries(sway_display_switch PRIVATE nlohmann_json::nlohmann_json SDL3::SDL3 SDL3_ttf::SDL3_ttf Fontconfig::Fontconfig)

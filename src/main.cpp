@@ -28,7 +28,7 @@ int main() {
     SDL_Window *window;
     SDL_Renderer *renderer;
 
-    if (!SDL_CreateWindowAndRenderer("Sway Monitor Switch", window_width, window_height, SDL_WINDOW_BORDERLESS, &window,
+    if (!SDL_CreateWindowAndRenderer("Sway Display Switch", window_width, window_height, SDL_WINDOW_BORDERLESS, &window,
                                      &renderer)) {
         std::cerr << "Could not create window and renderer" << std::endl;
         return 1;
