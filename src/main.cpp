@@ -4,7 +4,6 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <fontconfig/fontconfig.h>
 #include "ui/GUI.h"
-#include "ui/Output.h"
 
 int main() {
     constexpr auto window_width = 500;
@@ -77,9 +76,9 @@ int main() {
     }
 
     ui::GUI gui(renderer, window, sway_outputs, font,
-                [](const std::string &name, bool activate) {
-                    std::cout << name << ": " << std::boolalpha << activate << std::endl;
-                    return true;
+                [&sway_ipc](const std::string &name, bool state) {
+                    std::cout << name << ": " << std::boolalpha << state << std::endl;
+                    return sway_ipc.set_output(name, state);
                 });
 
     bool exit = false;

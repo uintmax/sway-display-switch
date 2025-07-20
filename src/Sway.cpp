@@ -75,6 +75,33 @@ std::vector<SwayOutput> Sway::get_outputs() {
     return outputs;
 }
 
+bool Sway::set_output(const std::string &name, bool state) {
+    std::string command;
+    if (state)
+        command = std::format(sway_output_enable_fmt, name);
+    else
+        command = std::format(sway_output_disable_fmt, name);
+
+    // TODO: Extra payload builder class/function
+    std::vector<uint8_t> payload(payload_header_len + command.size());
+    payload_magic_bytes.copy(reinterpret_cast<char *>(payload.data()), payload_magic_bytes.size());
+    *reinterpret_cast<uint32_t *>(&payload[payload_length_pos]) = command.size();
+    *reinterpret_cast<uint32_t *>(&payload[payload_type_pos]) = message_run_command;
+
+    command.copy(reinterpret_cast<char *>(&payload[payload_header_len]), command.size());
+
+    auto bytes_written = write(socket_fd, payload.data(), payload.size());
+    if (bytes_written == -1)
+        throw std::runtime_error("Error writing to Sway socket");
+    if (bytes_written != payload.size())
+        throw std::runtime_error(
+            "Only wrote " + std::to_string(bytes_written) + " out of " + std::to_string(payload_header_len) +
+            " bytes to Sway socket");
+
+    // TODO: Read response
+    return true;
+}
+
 Sway::~Sway() {
     close(socket_fd);
 }
