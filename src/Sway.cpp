@@ -60,8 +60,7 @@ std::vector<SwayOutput> Sway::get_outputs() {
             " bytes from Sway socket");
 
 
-    char *output_str = reinterpret_cast<char *>(reply_payload_buffer.data());
-    json json_outputs = json::parse(output_str);
+    json json_outputs = json::parse(reply_payload_buffer);
 
     std::vector<SwayOutput> outputs;
     for (const auto &json_output: json_outputs) {
