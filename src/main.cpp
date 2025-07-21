@@ -11,9 +11,6 @@ int main() {
 
     Sway sway_ipc;
     auto sway_outputs = sway_ipc.get_outputs();
-    for (const auto &output: sway_outputs) {
-        std::cout << "output: " << output.name << ": " << std::boolalpha << output.active << std::endl;
-    }
     if (sway_outputs.empty()) {
         // Should never happen, unless Sway returns data in a different format
         std::cerr << "No outputs found" << std::endl;

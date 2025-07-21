@@ -61,9 +61,7 @@ std::vector<SwayOutput> Sway::get_outputs() {
 
 
     char *output_str = reinterpret_cast<char *>(reply_payload_buffer.data());
-    std::string test(output_str);
-    std::cout << test << std::endl;
-    json json_outputs = json::parse(test);
+    json json_outputs = json::parse(output_str);
 
     std::vector<SwayOutput> outputs;
     for (const auto &json_output: json_outputs) {

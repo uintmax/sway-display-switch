@@ -22,6 +22,8 @@ namespace ui {
 
     void GUI::handle_input(SDL_Keycode key) {
         switch (key) {
+            case SDLK_A:
+            case SDLK_H:
             case SDLK_LEFT: {
                 std::cout << "left" << std::endl;
                 if (selected_output == 0)
@@ -30,6 +32,8 @@ namespace ui {
                     selected_output--;
                 break;
             }
+            case SDLK_D:
+            case SDLK_L:
             case SDLK_RIGHT: {
                 std::cout << "right" << std::endl;
                 if (selected_output == output_elements.size() - 1)
