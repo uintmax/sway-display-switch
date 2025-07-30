@@ -9,7 +9,10 @@ namespace ui {
         }
 
         SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
-        SDL_FRect text_rect(x, y + h / 2, texture->w, texture->h);
-        SDL_RenderTexture(renderer, texture, nullptr, &text_rect);
+        SDL_FRect text_rect(x + w / 2 - text_texture->w / 2, y + h / 2, text_texture->w, text_texture->h);
+        SDL_RenderTexture(renderer, text_texture, nullptr, &text_rect);
+
+        SDL_FRect icon_rect(x + w / 2 - icon_texture->w / 2, y + h / 4, icon_texture->w, icon_texture->h);
+        SDL_RenderTexture(renderer, icon_texture, nullptr, &icon_rect);
     }
 }

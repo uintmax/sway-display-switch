@@ -7,6 +7,7 @@ A GUI for toggling Sway outputs.
 Left: `Left arrow`, `A` or `H`  
 Right: `Right arrow`, `D` or`L`  
 Toggle: `Enter` or `Space`
+Exit: `Escape`
 
 ## Build
 
@@ -23,10 +24,10 @@ Best used when bound to a key in your Sway config:
 All dependencies will be automatically installed via vcpkg.
 
 - SDL3
-- SDL3_ttf
 - nlohmann_json
 - Fontconfig
 
 ## References
 
-https://man.archlinux.org/man/sway-ipc.7.en
+https://man.archlinux.org/man/sway-ipc.7.en  
+https://fonts.google.com/icons
