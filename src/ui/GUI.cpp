@@ -12,10 +12,9 @@ namespace ui {
         }
 
         SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
-        auto selected_x = selected_output * ui_elem_len + 10;
-        SDL_FRect selected_rect{.x = selected_x, .y = 10, .w = 10, .h = 10};
+        auto selected_x = selected_output * ui_elem_len;
+        SDL_FRect selected_rect(selected_x, 0, ui_elem_len, 5);
         SDL_RenderFillRect(renderer, &selected_rect);
-
 
         SDL_RenderPresent(renderer);
     }
