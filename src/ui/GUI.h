@@ -12,6 +12,9 @@
 #include <fontconfig/fontconfig.h>
 
 namespace ui {
+    /**
+     * GUI that shows available displays, handles input and executes given callback on selection
+     */
     class GUI {
     public:
         GUI(SDL_Renderer *renderer, SDL_Window *window, const std::vector<SwayOutput> &sway_outputs,
@@ -28,8 +31,7 @@ namespace ui {
             if (!font)
                 throw std::runtime_error("Could not find font");
             for (const auto &sway_output: sway_outputs) {
-                Output output_element(sway_output, renderer, font);
-                output_elements.push_back(output_element);
+               output_elements.emplace_back(sway_output, renderer, font);
             }
         }
 

@@ -7,16 +7,18 @@
 
 
 namespace ui {
+    /**
+     * Finds filepath of a font that matches the given pattern
+     */
+    class FontManager {
+    public:
+        FontManager(const std::string &pattern = ":Mono");
 
-class FontManager {
-public:
-    FontManager(const std::string &pattern = ":Mono");
-    std::string get_font_filepath() const;
+        std::string get_font_filepath() const;
 
-private:
-    std::string font_filepath;
-};
-
+    private:
+        std::string font_filepath;
+    };
 }
 
 #endif //FONTMANAGER_H

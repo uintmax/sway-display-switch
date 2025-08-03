@@ -5,6 +5,9 @@
 #include "ui/GUI.h"
 #include "ui/FontManager.h"
 
+/**
+ *  GUI for toggling Sway outputs
+ */
 int main() {
     Sway sway_ipc;
     auto sway_outputs = sway_ipc.get_outputs();

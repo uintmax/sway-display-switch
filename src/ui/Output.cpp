@@ -17,4 +17,13 @@ namespace ui {
                             text_texture->h);
         SDL_RenderTexture(renderer, text_texture, nullptr, &text_rect);
     }
+
+    Output::~Output() {
+        if (text_surface)
+            SDL_DestroySurface(text_surface);
+        if (text_texture)
+            SDL_DestroyTexture(text_texture);
+        if (icon_texture)
+            SDL_DestroyTexture(icon_texture);
+    }
 }

@@ -20,6 +20,9 @@ struct SwayOutput {
     bool active;
 };
 
+/**
+ * Abstraction for Sway IPC protcol
+ */
 class Sway {
 public:
     Sway();
