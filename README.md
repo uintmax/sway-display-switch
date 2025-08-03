@@ -6,8 +6,8 @@ A GUI for toggling Sway outputs.
 
 Left: `Left arrow`, `A` or `H`  
 Right: `Right arrow`, `D` or`L`  
-Toggle: `Enter` or `Space`
-Exit: `Escape`
+Toggle: `Enter` or `Space`  
+Exit: `Escape` or `Q`
 
 ## Build
 
@@ -29,5 +29,5 @@ All dependencies will be automatically installed via vcpkg.
 
 ## References
 
-https://man.archlinux.org/man/sway-ipc.7.en  
-https://fonts.google.com/icons
+- https://man.archlinux.org/man/sway-ipc.7.en  
+- https://fonts.google.com/icons

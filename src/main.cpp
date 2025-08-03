@@ -6,9 +6,6 @@
 #include "ui/GUI.h"
 
 int main() {
-    constexpr auto window_width = 500;
-    constexpr auto window_height = 200;
-
     Sway sway_ipc;
     auto sway_outputs = sway_ipc.get_outputs();
     if (sway_outputs.empty()) {
@@ -16,14 +13,16 @@ int main() {
         std::cerr << "No outputs found" << std::endl;
         return 1;
     }
+    const auto window_width = sway_outputs.size() * 250;
+    constexpr auto window_height = 160;
 
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "Could not initialize SDL" << std::endl;
         return 1;
     }
 
-    SDL_Window *window;
-    SDL_Renderer *renderer;
+    SDL_Window *window = nullptr;
+    SDL_Renderer *renderer = nullptr;
 
     if (!SDL_CreateWindowAndRenderer("Sway Display Switch", window_width, window_height, SDL_WINDOW_BORDERLESS, &window,
                                      &renderer)) {
@@ -87,7 +86,7 @@ int main() {
                 exit = true;
 
             if (e.type == SDL_EVENT_KEY_DOWN) {
-                if (e.key.key == SDLK_ESCAPE) {
+                if (e.key.key == SDLK_ESCAPE || e.key.key == SDLK_Q) {
                     exit = true;
                     break;
                 }
