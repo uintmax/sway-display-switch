@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 project(sway_display_switch)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 find_package(nlohmann_json REQUIRED)
 find_package(SDL3 REQUIRED)
