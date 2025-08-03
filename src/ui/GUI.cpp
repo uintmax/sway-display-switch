@@ -54,3 +54,7 @@ namespace ui {
         }
     }
 }
+
+ui::GUI::~GUI() {
+    TTF_CloseFont(font);
+}

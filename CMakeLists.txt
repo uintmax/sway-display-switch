@@ -16,6 +16,8 @@ add_executable(sway_display_switch src/main.cpp
         src/ui/Output.h
         src/ui/GUI.cpp
         src/ui/GUI.h
-        src/ui/Icons.h)
+        src/ui/Icons.h
+        src/ui/FontManager.cpp
+        src/ui/FontManager.h)
 
 target_link_libraries(sway_display_switch PRIVATE nlohmann_json::nlohmann_json SDL3::SDL3 SDL3_ttf::SDL3_ttf SDL3_image::SDL3_image Fontconfig::Fontconfig)
