@@ -13,7 +13,7 @@ Exit: `Escape` or `Q`
 
 `cmake --preset release`
 
-`cmake --build build-relase`
+`cmake --build build-release`
 
 Best used when bound to a key in your Sway config:
 
@@ -34,4 +34,4 @@ Two SVG icons from [Google Fonts](https://fonts.google.com/icons) are already em
 
 ## References
 
-- https://man.archlinux.org/man/sway-ipc.7.en  
+- https://man.archlinux.org/man/sway-ipc.7.en
