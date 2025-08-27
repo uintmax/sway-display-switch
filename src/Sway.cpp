@@ -31,8 +31,7 @@ std::vector<SwayOutput> Sway::get_outputs() {
     for (const auto &json_output: json_outputs) {
         auto output_name = json_output.at(sway_output_name).get<std::string>();
         auto output_active = json_output.at(sway_output_active).get<bool>();
-        SwayOutput output{output_name, output_active};
-        outputs.push_back(output);
+        outputs.emplace_back(output_name, output_active);
     }
     return outputs;
 }
