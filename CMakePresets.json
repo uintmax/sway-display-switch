@@ -22,7 +22,7 @@
       "inherits": "vcpkg",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_CXX_FLAGS_INIT": "-s"
+        "CMAKE_EXE_LINKER_FLAGS": "-s"
       }
     }
   ]
